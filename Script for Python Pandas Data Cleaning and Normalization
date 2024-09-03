@@ -1,0 +1,132 @@
+### Script for Python Pandas Data Cleaning and Normalization
+
+Data cleaning and normalization are essential steps in data analysis. In this video, I'll walk you through various data cleaning techniques using the pandas library in Python, along with examples and a real-time use case to illustrate each method.
+
+#### Real-Time Use Case: Customer Data Analysis
+Imagine you are a data analyst working for an e-commerce company. Your task is to clean and prepare customer data for analysis to understand buying patterns and improve marketing strategies.
+
+#### Removing Missing Values
+Removing missing values is often the first step in data cleaning. We can use the `dropna()` method to remove rows or columns with null values.
+```python
+import pandas as pd
+
+# Example DataFrame
+data = {'CustomerID': [1, 2, 3, 4], 'Age': [25, None, 35, 40], 'Purchase': [None, 200, 150, 300]}
+df = pd.DataFrame(data)
+
+# Removing rows with missing values
+df_cleaned = df.dropna()
+print(df_cleaned)
+```
+In this case, we remove rows with missing age or purchase data to ensure our analysis is based on complete records.
+
+#### Practice Question 1:
+Given a DataFrame `df` with missing values in several columns, how would you remove only the rows where all elements are missing?
+
+#### Filling Missing Values
+Alternatively, we can fill missing values using the `fillna()` method.
+```python
+# Filling missing values with the mean of the column
+df_filled = df.fillna({'Age': df['Age'].mean(), 'Purchase': df['Purchase'].mean()})
+print(df_filled)
+```
+Fill missing values when you want to maintain the dataset's completeness. Here, we fill missing ages with the average age and missing purchases with the average purchase amount.
+
+#### Practice Question 2:
+How would you fill missing values in a column with the median value instead of the mean?
+
+#### Removing Duplicates
+Removing duplicates helps maintain data integrity. Use the `drop_duplicates()` method.
+```python
+data = {'CustomerID': [1, 2, 2, 4], 'Age': [25, 30, 30, 40], 'Purchase': [100, 200, 200, 300]}
+df = pd.DataFrame(data)
+
+# Removing duplicate rows
+df_no_duplicates = df.drop_duplicates()
+print(df_no_duplicates)
+```
+Eliminate redundant data, such as duplicate customer records, to ensure accurate analysis results.
+
+#### Practice Question 3:
+How would you keep only the first occurrence of duplicate rows in a DataFrame while removing all subsequent duplicates?
+
+#### Converting Data Types
+Data type conversion is crucial for accurate analysis. Use the `astype()` method to convert data types.
+```python
+data = {'CustomerID': ['1', '2', '3', '4'], 'Age': ['25', '30', '35', '40']}
+df = pd.DataFrame(data)
+
+# Converting columns to integer
+df['CustomerID'] = df['CustomerID'].astype(int)
+df['Age'] = df['Age'].astype(int)
+print(df)
+```
+Convert data types when the data format needs to match the requirements of your analysis. Here, we ensure customer IDs and ages are integers.
+
+#### Practice Question 4:
+How would you convert a column with date strings into datetime objects?
+
+#### Handling Outliers
+Outliers can distort analysis results. Identify and handle them using statistical techniques or visualization.
+```python
+import numpy as np
+
+data = {'CustomerID': [1, 2, 3, 4, 5], 'Age': [25, 30, 35, 40, 100], 'Purchase': [100, 200, 150, 300, 1000]}
+df = pd.DataFrame(data)
+
+# Identifying outliers using Z-score
+df['Age_Z-Score'] = (df['Age'] - df['Age'].mean()) / df['Age'].std()
+df['Purchase_Z-Score'] = (df['Purchase'] - df['Purchase'].mean()) / df['Purchase'].std()
+print(df)
+```
+Handle outliers by either removing them or transforming the data to minimize their impact. Here, we identify outliers in age and purchase data.
+
+#### Practice Question 5:
+What methods can you use to handle outliers in a DataFrame, and when would you choose to transform rather than remove them?
+
+#### Data Normalization
+Normalization scales data to a specific range, making it suitable for algorithms sensitive to data scale.
+
+1. **Simple Feature Scaling**
+   Scales data to a range between 0 and 1.
+   ```python
+   df['Age_Scaled'] = df['Age'] / df['Age'].max()
+   df['Purchase_Scaled'] = df['Purchase'] / df['Purchase'].max()
+   print(df)
+   ```
+
+2. **Min-Max Scaling**
+   Adjusts data to a defined range.
+   ```python
+   from sklearn.preprocessing import MinMaxScaler
+
+   scaler = MinMaxScaler()
+   df[['Age_Min-Max', 'Purchase_Min-Max']] = scaler.fit_transform(df[['Age', 'Purchase']])
+   print(df)
+   ```
+
+3. **Z-Score Normalization**
+   Standardizes data based on mean and standard deviation.
+   ```python
+   from scipy.stats import zscore
+
+   df['Age_Z-Score'] = zscore(df['Age'])
+   df['Purchase_Z-Score'] = zscore(df['Purchase'])
+   print(df)
+   ```
+
+#### When to Use Each Normalization Method
+
+- **Simple Feature Scaling**: Use when data ranges are consistent and you need a straightforward normalization method.
+- **Min-Max Scaling**: Ideal for algorithms that require data within a specific range, like neural networks.
+- **Z-Score Normalization**: Best for data that follows a Gaussian distribution, making it suitable for statistical analyses.
+
+By applying these techniques, you can ensure your customer data is clean, normalized, and ready for analysis, helping you uncover valuable insights for your marketing strategies.
+
+Happy coding!
+
+---
+
+We estimate this script will generate a video of approximately 30 minutes in length.
+
+Would you like to generate a video using this script? If this aligns with your vision, say **Continue**, if not tell me how to change it!
